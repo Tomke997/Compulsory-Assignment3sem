@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Petshop.Core.Entity;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Petshop.Core.ApplicationService
 {
-    interface IPetService
+    public interface IPetService
     {
+        List<Pet> GetPets();
     }
 }
