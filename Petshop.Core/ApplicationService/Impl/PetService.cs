@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Petshop.Core.DomainService;
 using Petshop.Core.Entity;
+using System.Linq;
 
 namespace Petshop.Core.ApplicationService.Impl
 {
@@ -15,7 +16,7 @@ namespace Petshop.Core.ApplicationService.Impl
 
         public List<Pet> GetPets()
         {
-            throw new NotImplementedException();
+            return _perRepository.ReadPets().ToList();
         }
     }
 }
