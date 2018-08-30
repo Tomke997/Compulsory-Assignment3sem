@@ -38,5 +38,47 @@ namespace Petshop.Core.ApplicationService.Impl
         {
             return _perRepository.ReadPets().ToList();
         }
+
+        public void PrintValidation(string alert, string text)
+        {
+            var cursorT = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorSize - 15);
+            Console.Write(alert);
+            Console.SetCursorPosition(0, cursorT - 1);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(Console.CursorLeft, cursorT - 1);
+            Console.Write(text);
+        }
+
+        public void ClearValidation()
+        {
+            var cursorT = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorSize - 15);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(Console.CursorLeft, cursorT);
+
+        }
+
+        public List<Pet> GetPetsByType(string type)
+        {
+            List<Pet> listWithType = new List<Pet>();
+            foreach (Pet pet in _perRepository.ReadPets().ToList())
+            {
+                if (pet.Type.ToUpper() == type.ToUpper())
+                {
+                    listWithType.Add(pet);
+                }               
+            }
+            if(listWithType.Count==0)
+            {
+                return null;
+            }
+            return listWithType;
+        }
+
+        public Pet DeletePet(int selectedId)
+        {
+           return _perRepository.RemovePet(selectedId);
+        }
     }
 }

@@ -8,7 +8,9 @@ namespace Petshop.Core.ApplicationService
     {
         List<Pet> GetPets();
 
-         Pet CreatePet(
+        List<Pet> GetPetsByType(string type);
+
+        Pet CreatePet(
          string Name,
          string Type,
          DateTime Birthdate,
@@ -18,5 +20,13 @@ namespace Petshop.Core.ApplicationService
          double Price);
 
         Pet AddPet(Pet newPet);
+
+        void ClearValidation();
+
+       void PrintValidation(string alert, string text);
+
+        Pet DeletePet(int selectedId);
+
+
     }
 }

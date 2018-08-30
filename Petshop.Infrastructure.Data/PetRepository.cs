@@ -20,9 +20,34 @@ namespace Petshop.Infrastructure.Data
             return newPet;
         }
 
+        public Pet GetPetById(int selectedId)
+        {
+            foreach (Pet pet in FakeDB.petList.ToList())
+            {
+                if (pet.ID == selectedId)
+                {
+                    return pet;
+                }
+            }
+            return null;
+        }
+
         public IEnumerable<Pet> ReadPets()
         {
             return FakeDB.petList;
+        }
+
+        public Pet RemovePet(int selectedId)
+        {
+            Pet foundPet = this.GetPetById(selectedId);
+            if(foundPet!=null)
+            {
+                var pets = FakeDB.petList.ToList();
+                pets.Remove(foundPet);
+                FakeDB.petList = pets;
+                return foundPet;
+            }
+            return null;
         }
     }
 }

@@ -8,5 +8,9 @@ namespace Petshop.Core.DomainService
         IEnumerable<Pet> ReadPets();
 
         Pet AddPet(Pet newPet);
+
+        Pet RemovePet(int selectedId);
+
+        Pet GetPetById(int selectedId);
     }
 }

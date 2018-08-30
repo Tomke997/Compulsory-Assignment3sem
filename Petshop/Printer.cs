@@ -33,12 +33,26 @@ namespace Petshop
                 switch (selection)
                 {
                    
-                    case 2:
+                    case 1:
                         PrintPetsInList(_petService.GetPets());              
                         break;
-                    case 4:
-                        var name = PrintAndRead("Name: ");
+                    case 2:
                         var type = PrintAndRead("Type: ");
+                        List<Pet> listOfPets = _petService.GetPetsByType(type);
+                        if(listOfPets==null)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("No animals of the selected type");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            PrintPetsInList(listOfPets);
+                        }
+                        break;
+                    case 3:
+                        var name = PrintAndRead("Name: ");
+                        type = PrintAndRead("Type: ");
                         var birthday = PrintAndReadDateTime("Birthday: ");
                         var soldDate = PrintAndReadDateTime("SoldDate: ");
                         var color = PrintAndRead("Color: ");
@@ -47,6 +61,15 @@ namespace Petshop
 
                         Pet newPet =_petService.CreatePet(name, type, birthday, soldDate, color, previousOwner, price);
                         _petService.AddPet(newPet);
+                        break;
+                    case 4:
+                        //CHANGE IT TEST
+                        string foundPetId = PrintAndRead("Id: ");
+                        if (_petService.DeletePet(int.Parse(foundPetId))==null)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Pet with this Id does not exist");
+                        }                    
                         break;
                 }
                 Console.ReadLine();
@@ -94,9 +117,9 @@ namespace Petshop
             DateTime dateTime;
             while(!DateTime.TryParse(Console.ReadLine(), out dateTime))
             {
-                PrintValidation("Insert correct date", text);
+                _petService.PrintValidation("Insert correct date", text);
             }
-            ClearValidation();
+            _petService.ClearValidation();
             return dateTime;
         }
 
@@ -106,29 +129,10 @@ namespace Petshop
             double price;
             while (!double.TryParse(Console.ReadLine(), out price))
             {
-                PrintValidation("Insert correct price", text);           
+                _petService.PrintValidation("Insert correct price", text);           
             }
-            ClearValidation();
+            _petService.ClearValidation();
             return price;
-        }
-        void PrintValidation(string alert,string text)
-        {
-            var cursorT = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorSize - 15);
-            Console.Write(alert);
-            Console.SetCursorPosition(0, cursorT - 1);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(Console.CursorLeft, cursorT - 1);
-            Console.Write(text);
-        }
-
-        void ClearValidation()
-        {
-            var cursorT = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorSize - 15);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(Console.CursorLeft, cursorT);
-            
         }       
     }
 }
