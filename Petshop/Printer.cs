@@ -128,6 +128,7 @@ namespace Petshop
             Console.SetCursorPosition(0, Console.CursorSize - 15);
             Console.Write(new string(' ', Console.WindowWidth));
             Console.SetCursorPosition(Console.CursorLeft, cursorT);
-        }
+            
+        }       
     }
 }
