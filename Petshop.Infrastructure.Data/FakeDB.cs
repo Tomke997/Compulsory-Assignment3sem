@@ -7,6 +7,7 @@ namespace Petshop.Infrastructure.Data
 {
     public static class FakeDB
     {
+        
         public static IEnumerable<Pet> petList = new List<Pet>(); 
         
         public static void InitData()
@@ -47,7 +48,7 @@ namespace Petshop.Infrastructure.Data
                 Price = 999.99
             };
 
-            petList = new List<Pet>() { pet1, pet2, pet3 };
+            petList = new List<Pet>() { pet1, pet2, pet3 };           
         }
     }
 }
