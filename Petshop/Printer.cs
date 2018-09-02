@@ -2,6 +2,7 @@
 using Petshop.Core.Entity;
 using System.Collections.Generic;
 using System;
+using System.ComponentModel;
 
 namespace Petshop
 {
@@ -37,6 +38,7 @@ namespace Petshop
                         PrintPetsInList(_petService.GetPets());              
                         break;
                     case 2:
+                        //CHANGE!!
                         var type = PrintAndRead("Type: ");
                         List<Pet> listOfPets = _petService.GetPetsByType(type);
                         if(listOfPets==null)
@@ -53,23 +55,65 @@ namespace Petshop
                     case 3:
                         var name = PrintAndRead("Name: ");
                         type = PrintAndRead("Type: ");
-                        var birthday = PrintAndReadDateTime("Birthday: ");
-                        var soldDate = PrintAndReadDateTime("SoldDate: ");
+                        var birthday = PrintAndReadDateTime("Birthday: ", "Insert correct date");
+                        var soldDate = PrintAndReadDateTime("SoldDate: ", "Insert correct date");
                         var color = PrintAndRead("Color: ");
                         var previousOwner = PrintAndRead("PreviousOwner: ");
-                        var price = PrintAndReadPrice("Price: ");
+                        var price = PrintAndReadPrice("Price: ","Insert correct price");
 
                         Pet newPet =_petService.CreatePet(name, type, birthday, soldDate, color, previousOwner, price);
                         _petService.AddPet(newPet);
                         break;
                     case 4:
-                        //CHANGE IT TEST
-                        string foundPetId = PrintAndRead("Id: ");
-                        if (_petService.DeletePet(int.Parse(foundPetId))==null)
+                        int foundPetIdDelete;
+                        if (int.TryParse(PrintAndRead("Id: "), out foundPetIdDelete))
+                        {
+                            _petService.DeletePet(foundPetIdDelete);
+                        }
+                        else
                         {
                             Console.Clear();
-                            Console.WriteLine("Pet with this Id does not exist");
-                        }                    
+                            Console.WriteLine("insert number");
+                        }
+                            break;
+                    case 5:
+                        //CHANGE IT TEST
+                         int foundPetId;
+                        if (int.TryParse(PrintAndRead("Id: "), out foundPetId))
+                        {
+                            if (_petService.FindPetById(foundPetId) == null)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Pet with this Id does not exist");
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                 name = PrintAndRead("Name: ");
+                                type = PrintAndRead("Type: ");
+                                 birthday = PrintAndReadDateTime("Birthday: ", "Insert correct date");
+                                 soldDate = PrintAndReadDateTime("SoldDate: ", "Insert correct date");
+                                 color = PrintAndRead("Color: ");
+                                 previousOwner = PrintAndRead("PreviousOwner: ");
+                                price = PrintAndReadPrice("Price: ", "Insert correct price");
+                                Pet updatedPet = new Pet()
+                                {
+                                    ID=foundPetId,
+                                    Name = name,
+                                    Birthdate=birthday,
+                                    SoldDate=soldDate,
+                                    Color=color,
+                                    PreviousOwner=previousOwner,
+                                   Price=price
+                                };
+                                _petService.UpdatePet(updatedPet);
+                            }
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Isert Number");
+                        }
                         break;
                 }
                 Console.ReadLine();
@@ -101,7 +145,7 @@ namespace Petshop
         {
             foreach (Pet pet in petList)
             {
-                Console.WriteLine($"ID: {pet.ID}, Name: {pet.Name}, Type: {pet.Type}, Birthdate: {pet.Birthdate}, SoldDate: {pet.SoldDate}, Color: {pet.Color}, PreviousOwner: {pet.PreviousOwner}, Price: {pet.Price}");
+                Console.WriteLine($"ID: {pet.ID}, Name: {pet.Name}, Type: {pet.Type}, Birthdate: {pet.Birthdate.ToString("dd/MM/yyyy")}, SoldDate: {pet.SoldDate.ToString("dd/MM/yyyy")}, Color: {pet.Color}, PreviousOwner: {pet.PreviousOwner}, Price: {pet.Price}");
             }
         }
 
@@ -111,28 +155,29 @@ namespace Petshop
             return Console.ReadLine();
         }
 
-        DateTime PrintAndReadDateTime(string text)
+        DateTime PrintAndReadDateTime(string text,string information)
         {
             Console.Write(text);
             DateTime dateTime;
             while(!DateTime.TryParse(Console.ReadLine(), out dateTime))
             {
-                _petService.PrintValidation("Insert correct date", text);
+                _petService.PrintValidation(information, text);
             }
             _petService.ClearValidation();
             return dateTime;
         }
 
-        double PrintAndReadPrice(string text)
-        {
+        double PrintAndReadPrice(string text,string information)
+        {          
             Console.Write(text);
             double price;
             while (!double.TryParse(Console.ReadLine(), out price))
             {
-                _petService.PrintValidation("Insert correct price", text);           
+                _petService.PrintValidation(information, text);           
             }
             _petService.ClearValidation();
             return price;
-        }       
+        }  
+        
     }
 }

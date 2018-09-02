@@ -49,5 +49,22 @@ namespace Petshop.Infrastructure.Data
             }
             return null;
         }
+
+        public Pet UpdatePet(Pet updatedPet)
+        {
+            Pet foundPet = this.GetPetById(updatedPet.ID);
+            if (foundPet != null)
+            {
+                foundPet.Name = updatedPet.Name;
+                foundPet.Type = updatedPet.Type;
+                foundPet.Birthdate = updatedPet.Birthdate;
+                foundPet.SoldDate = updatedPet.SoldDate;
+                foundPet.Color = updatedPet.Color;
+                foundPet.PreviousOwner = updatedPet.PreviousOwner;
+                foundPet.Price = updatedPet.Price;
+                return foundPet;
+            }
+            return null;
+        }
     }
 }

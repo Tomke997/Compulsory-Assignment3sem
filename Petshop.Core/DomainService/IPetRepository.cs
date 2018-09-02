@@ -12,5 +12,7 @@ namespace Petshop.Core.DomainService
         Pet RemovePet(int selectedId);
 
         Pet GetPetById(int selectedId);
+
+        Pet UpdatePet(Pet updatedPet);
     }
 }

@@ -80,5 +80,15 @@ namespace Petshop.Core.ApplicationService.Impl
         {
            return _perRepository.RemovePet(selectedId);
         }
+
+        public Pet FindPetById(int Id)
+        {
+            return _perRepository.GetPetById(Id);
+        }
+
+        public Pet UpdatePet(Pet selectedPet)
+        {
+            return _perRepository.UpdatePet(selectedPet);
+        }
     }
 }

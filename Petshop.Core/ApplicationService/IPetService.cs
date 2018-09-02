@@ -23,10 +23,12 @@ namespace Petshop.Core.ApplicationService
 
         void ClearValidation();
 
-       void PrintValidation(string alert, string text);
+        void PrintValidation(string alert, string text);
 
         Pet DeletePet(int selectedId);
 
+        Pet UpdatePet(Pet selectedPet);
 
+        Pet FindPetById(int Id);
     }
 }
