@@ -127,7 +127,7 @@ namespace Petshop
         int PrintMenuItems(List<string> menuItems)
         {
             Console.Clear();
-            Console.WriteLine("Welcome to the best petshop application \nselect wisely: \n");
+            Console.WriteLine("Welcome to the best pet shop application \nselect wisely: \n");
             for (int i = 0; i < menuItems.Count; i++)
             {
                 Console.WriteLine($"{i+1}. {menuItems[i]}");
@@ -138,7 +138,7 @@ namespace Petshop
                 || selection > 8)
             {
                 Console.SetCursorPosition(0, Console.CursorTop);
-                Console.Write("Please select a number between 1-5");
+                Console.Write("Please select a number between 1-8");
                 Console.SetCursorPosition(0, Console.CursorTop);
             }           
             return selection;
