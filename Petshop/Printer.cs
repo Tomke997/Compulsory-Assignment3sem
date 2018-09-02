@@ -2,7 +2,6 @@
 using Petshop.Core.Entity;
 using System.Collections.Generic;
 using System;
-using System.ComponentModel;
 
 namespace Petshop
 {
@@ -114,6 +113,16 @@ namespace Petshop
                             Console.Clear();
                             Console.WriteLine("Isert Number");
                         }
+                        break;
+                    case 6:                       
+                        List<Pet> petList; ;
+                        petList =_petService.SortPetByPrice(_petService.GetPets());
+                        PrintPetsInList(petList);
+                        break;
+                    case 7:
+                        List<Pet> newPetList; ;
+                        newPetList = _petService.SortPetByPrice(_petService.GetPets());
+                        PrintPetsInList(_petService.GetSelectedAmountOfPets(newPetList,5));
                         break;
                 }
                 Console.ReadLine();

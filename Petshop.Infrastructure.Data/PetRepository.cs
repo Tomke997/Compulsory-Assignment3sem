@@ -12,11 +12,11 @@ namespace Petshop.Infrastructure.Data
 
         public Pet AddPet(Pet newPet)
         {
-            staticId++;
-            newPet.ID = staticId;
+            newPet.ID = ++staticId;
             var pets = FakeDB.petList.ToList();
             pets.Add(newPet);
             FakeDB.petList = pets;
+            FakeDB.petList.ToList().Add(newPet);
             return newPet;
         }
 

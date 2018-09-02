@@ -90,5 +90,23 @@ namespace Petshop.Core.ApplicationService.Impl
         {
             return _perRepository.UpdatePet(selectedPet);
         }
+
+        public List<Pet> SortPetByPrice(List<Pet> petList)
+        {
+            return petList.OrderBy(pet => pet.Price).ToList();
+            
+        }
+
+        public List<Pet> GetSelectedAmountOfPets(List<Pet> petList, int amount)
+        {
+           int i = 0;
+           List<Pet> listWithPets = new List<Pet>();
+           while(i<petList.Count() && i<5)
+            {
+                listWithPets.Add(petList[i++]);
+              //  i++;
+            }
+            return listWithPets;
+        }
     }
 }

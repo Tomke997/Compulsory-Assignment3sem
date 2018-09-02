@@ -30,5 +30,9 @@ namespace Petshop.Core.ApplicationService
         Pet UpdatePet(Pet selectedPet);
 
         Pet FindPetById(int Id);
+
+        List<Pet> SortPetByPrice(List<Pet> petList);
+
+        List<Pet> GetSelectedAmountOfPets(List<Pet> petList,int amount);
     }
 }

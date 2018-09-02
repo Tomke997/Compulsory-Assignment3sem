@@ -45,7 +45,7 @@ namespace Petshop.Infrastructure.Data
                 SoldDate = DateTime.Parse("08 / 07 / 2010"),
                 Color = "Green",
                 PreviousOwner = "Andrew Adamson",
-                Price = 999.99
+                Price = 99.99
             };
 
             petList = new List<Pet>() { pet1, pet2, pet3 };           
