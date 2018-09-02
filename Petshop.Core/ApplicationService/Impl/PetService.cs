@@ -101,10 +101,9 @@ namespace Petshop.Core.ApplicationService.Impl
         {
            int i = 0;
            List<Pet> listWithPets = new List<Pet>();
-           while(i<petList.Count() && i<5)
+           while(i<petList.Count() && i<amount)
             {
                 listWithPets.Add(petList[i++]);
-              //  i++;
             }
             return listWithPets;
         }

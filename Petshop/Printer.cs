@@ -36,89 +36,74 @@ namespace Petshop
                     case 1:
                         PrintPetsInList(_petService.GetPets());              
                         break;
+
                     case 2:
-                        //CHANGE!!
-                        var type = PrintAndRead("Type: ");
-                        List<Pet> listOfPets = _petService.GetPetsByType(type);
-                        if(listOfPets==null)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("No animals of the selected type");
-                        }
-                        else
-                        {
-                            Console.Clear();
-                            PrintPetsInList(listOfPets);
-                        }
+
+                        PrintAnimalsByType();
                         break;
                     case 3:
                         var name = PrintAndRead("Name: ");
-                        type = PrintAndRead("Type: ");
-                        var birthday = PrintAndReadDateTime("Birthday: ", "Insert correct date");
-                        var soldDate = PrintAndReadDateTime("SoldDate: ", "Insert correct date");
+                        var type = PrintAndRead("Type: ");
+                        var birthday = PrintAndReadDateTime("Birthday: ", "Insert date");
+                        var soldDate = PrintAndReadDateTime("SoldDate: ", "Insert date");
                         var color = PrintAndRead("Color: ");
                         var previousOwner = PrintAndRead("PreviousOwner: ");
-                        var price = PrintAndReadPrice("Price: ","Insert correct price");
+                        var price = PrintAndReadPrice("Price: ","Insert price");
 
                         Pet newPet =_petService.CreatePet(name, type, birthday, soldDate, color, previousOwner, price);
                         _petService.AddPet(newPet);
                         break;
+
                     case 4:
-                        int foundPetIdDelete;
-                        if (int.TryParse(PrintAndRead("Id: "), out foundPetIdDelete))
+                        int petId = PrintAndReadID("ID: ", "insert number");
+                        if(_petService.FindPetById(petId) != null)
                         {
-                            _petService.DeletePet(foundPetIdDelete);
+                            _petService.DeletePet(petId);
                         }
                         else
                         {
                             Console.Clear();
-                            Console.WriteLine("insert number");
+                            Console.WriteLine("Pet with this Id does not exist");
                         }
                             break;
+
                     case 5:
-                        //CHANGE IT TEST
-                         int foundPetId;
-                        if (int.TryParse(PrintAndRead("Id: "), out foundPetId))
+                         petId = PrintAndReadID("ID: ", "insert number");
+                        if (_petService.FindPetById(petId) != null)
                         {
-                            if (_petService.FindPetById(foundPetId) == null)
+                            Console.Clear();
+                            name = PrintAndRead("Name: ");
+                            type = PrintAndRead("Type: ");
+                            birthday = PrintAndReadDateTime("Birthday: ", "Insert correct date");
+                            soldDate = PrintAndReadDateTime("SoldDate: ", "Insert correct date");
+                            color = PrintAndRead("Color: ");
+                            previousOwner = PrintAndRead("PreviousOwner: ");
+                            price = PrintAndReadPrice("Price: ", "Insert correct price");
+                            Pet updatedPet = new Pet()
                             {
-                                Console.Clear();
-                                Console.WriteLine("Pet with this Id does not exist");
-                            }
-                            else
-                            {
-                                Console.Clear();
-                                 name = PrintAndRead("Name: ");
-                                type = PrintAndRead("Type: ");
-                                 birthday = PrintAndReadDateTime("Birthday: ", "Insert correct date");
-                                 soldDate = PrintAndReadDateTime("SoldDate: ", "Insert correct date");
-                                 color = PrintAndRead("Color: ");
-                                 previousOwner = PrintAndRead("PreviousOwner: ");
-                                price = PrintAndReadPrice("Price: ", "Insert correct price");
-                                Pet updatedPet = new Pet()
-                                {
-                                    ID=foundPetId,
-                                    Name = name,
-                                    Birthdate=birthday,
-                                    SoldDate=soldDate,
-                                    Color=color,
-                                    PreviousOwner=previousOwner,
-                                   Price=price
-                                };
-                                _petService.UpdatePet(updatedPet);
-                            }
+                                ID = petId,
+                                Name = name,
+                                Birthdate = birthday,
+                                SoldDate = soldDate,
+                                Color = color,
+                                PreviousOwner = previousOwner,
+                                Price = price
+                            };
+                            _petService.UpdatePet(updatedPet);
                         }
                         else
                         {
                             Console.Clear();
-                            Console.WriteLine("Isert Number");
-                        }
+                            Console.WriteLine("Pet with this Id does not exist");
+                        }                           
                         break;
+
                     case 6:                       
                         List<Pet> petList; ;
                         petList =_petService.SortPetByPrice(_petService.GetPets());
                         PrintPetsInList(petList);
                         break;
+
                     case 7:
                         List<Pet> newPetList; ;
                         newPetList = _petService.SortPetByPrice(_petService.GetPets());
@@ -127,6 +112,22 @@ namespace Petshop
                 }
                 Console.ReadLine();
                 selection = PrintMenuItems(menuItems);
+            }
+        }
+
+        void PrintAnimalsByType()
+        {
+            var type = PrintAndRead("Type: ");
+            List<Pet> listOfPets = _petService.GetPetsByType(type);
+            if (listOfPets == null)
+            {
+                Console.Clear();
+                Console.WriteLine("No animals of the selected type");
+            }
+            else
+            {
+                Console.Clear();
+                PrintPetsInList(listOfPets);
             }
         }
 
@@ -164,6 +165,7 @@ namespace Petshop
             return Console.ReadLine();
         }
 
+        #region Validations
         DateTime PrintAndReadDateTime(string text,string information)
         {
             Console.Write(text);
@@ -186,7 +188,20 @@ namespace Petshop
             }
             _petService.ClearValidation();
             return price;
-        }  
-        
+        }
+
+        int PrintAndReadID(string text, string information)
+        {
+            Console.Write(text);
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                _petService.PrintValidation(information, text);
+            }
+            _petService.ClearValidation();
+            return id;
+        }
+        #endregion
+
     }
 }
