@@ -6,18 +6,11 @@ namespace Petshop.Core.ApplicationService
 {
     public interface IPetService
     {
+        Pet GetPetInstance();
+
         List<Pet> GetPets();
 
         List<Pet> GetPetsByType(string type);
-
-        Pet CreatePet(
-         string Name,
-         string Type,
-         DateTime Birthdate,
-         DateTime SoldDate,
-         string Color,
-         string PreviousOwner,
-         double Price);
 
         Pet AddPet(Pet newPet);
 

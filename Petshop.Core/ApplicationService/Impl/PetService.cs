@@ -14,24 +14,15 @@ namespace Petshop.Core.ApplicationService.Impl
             _perRepository = petRepository;
         }
 
+        public Pet GetPetInstance()
+        {
+            return new Pet();
+        }
+
         public Pet AddPet(Pet newPet)
         {
             _perRepository.AddPet(newPet);
             return newPet;
-        }
-
-        public Pet CreatePet(string Name, string Type, DateTime Birthdate, DateTime SoldDate, string Color, string PreviousOwner, double Price)
-        {
-            return new Pet()
-            {
-                Name = Name,
-                Type = Type,
-                Birthdate = Birthdate,
-                SoldDate = SoldDate,
-                Color = Color,
-                PreviousOwner = PreviousOwner,
-                Price = Price
-            };
         }
 
         public List<Pet> GetPets()
@@ -106,6 +97,6 @@ namespace Petshop.Core.ApplicationService.Impl
                 listWithPets.Add(petList[i++]);
             }
             return listWithPets;
-        }
+        }    
     }
 }
