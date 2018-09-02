@@ -42,16 +42,9 @@ namespace Petshop
                         PrintAnimalsByType();
                         break;
                     case 3:
-                        var name = PrintAndRead("Name: ");
-                        var type = PrintAndRead("Type: ");
-                        var birthday = PrintAndReadDateTime("Birthday: ", "Insert date");
-                        var soldDate = PrintAndReadDateTime("SoldDate: ", "Insert date");
-                        var color = PrintAndRead("Color: ");
-                        var previousOwner = PrintAndRead("PreviousOwner: ");
-                        var price = PrintAndReadPrice("Price: ","Insert price");
-
-                        Pet newPet =_petService.CreatePet(name, type, birthday, soldDate, color, previousOwner, price);
-                        _petService.AddPet(newPet);
+                        Pet pet = CreatePet(-1);
+                       // Pet newPet =_petService.CreatePet(name, type, birthday, soldDate, color, previousOwner, price);
+                        _petService.AddPet(pet);
                         break;
 
                     case 4:
@@ -71,25 +64,9 @@ namespace Petshop
                          petId = PrintAndReadID("ID: ", "insert number");
                         if (_petService.FindPetById(petId) != null)
                         {
-                            Console.Clear();
-                            name = PrintAndRead("Name: ");
-                            type = PrintAndRead("Type: ");
-                            birthday = PrintAndReadDateTime("Birthday: ", "Insert correct date");
-                            soldDate = PrintAndReadDateTime("SoldDate: ", "Insert correct date");
-                            color = PrintAndRead("Color: ");
-                            previousOwner = PrintAndRead("PreviousOwner: ");
-                            price = PrintAndReadPrice("Price: ", "Insert correct price");
-                            Pet updatedPet = new Pet()
-                            {
-                                ID = petId,
-                                Name = name,
-                                Birthdate = birthday,
-                                SoldDate = soldDate,
-                                Color = color,
-                                PreviousOwner = previousOwner,
-                                Price = price
-                            };
-                            _petService.UpdatePet(updatedPet);
+                             Console.Clear();
+                             pet = CreatePet(petId);                           
+                            _petService.UpdatePet(pet);
                         }
                         else
                         {
@@ -105,14 +82,36 @@ namespace Petshop
                         break;
 
                     case 7:
-                        List<Pet> newPetList; ;
-                        newPetList = _petService.SortPetByPrice(_petService.GetPets());
-                        PrintPetsInList(_petService.GetSelectedAmountOfPets(newPetList,5));
+                        petList = _petService.SortPetByPrice(_petService.GetPets());
+                        PrintPetsInList(_petService.GetSelectedAmountOfPets(petList, 5));
                         break;
                 }
                 Console.ReadLine();
                 selection = PrintMenuItems(menuItems);
             }
+        }
+
+        Pet CreatePet(int id)
+        {
+            var name = PrintAndRead("Name: ");
+            var type = PrintAndRead("Type: ");
+            var birthday = PrintAndReadDateTime("Birthday: ", "Insert correct date");
+            var soldDate = PrintAndReadDateTime("SoldDate: ", "Insert correct date");
+            var color = PrintAndRead("Color: ");
+            var previousOwner = PrintAndRead("PreviousOwner: ");
+            var price = PrintAndReadPrice("Price: ", "Insert correct price");
+            return new Pet()
+            {
+                ID = id,
+                Name = name,
+                Type = type,
+                Birthdate = birthday,
+                SoldDate = soldDate,
+                Color = color,
+                PreviousOwner = previousOwner,
+                Price = price
+            };
+
         }
 
         void PrintAnimalsByType()
@@ -155,7 +154,7 @@ namespace Petshop
         {
             foreach (Pet pet in petList)
             {
-                Console.WriteLine($"ID: {pet.ID}, Name: {pet.Name}, Type: {pet.Type}, Birthdate: {pet.Birthdate.ToString("dd/MM/yyyy")}, SoldDate: {pet.SoldDate.ToString("dd/MM/yyyy")}, Color: {pet.Color}, PreviousOwner: {pet.PreviousOwner}, Price: {pet.Price}");
+                Console.WriteLine($"ID: {pet.ID}, Name: {pet.Name}, Type: {pet.Type}, Birthdate: {pet.Birthdate.ToString("dd/MM/yyyy")}, SoldDate: {pet.SoldDate.ToString("dd/MM/yyyy")}, Color: {pet.Color}, PreviousOwner: {pet.PreviousOwner}, Price: {pet.Price}\n");
             }
         }
 
