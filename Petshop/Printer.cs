@@ -103,7 +103,7 @@ namespace Petshop
             pet.Birthdate = PrintAndReadDateTime("Birthday: ", "Please insert a date");
             pet.SoldDate = PrintAndReadDateTime("SoldDate: ", "Please insert a date");
             pet.Color = PrintAndRead("Color: ");
-            pet.PreviousOwner = PrintAndRead("PreviousOwner: ");
+           // pet.PreviousOwner = PrintAndRead("PreviousOwner: ");
             pet.Price = PrintAndReadPrice("Price: ", "Please insert a price");
             return pet;
         }

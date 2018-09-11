@@ -9,9 +9,12 @@ namespace Petshop.Core.ApplicationService.Impl
     public class PetService : IPetService
     {
         readonly IPetRepository _perRepository;
-        public PetService(IPetRepository petRepository)
+        readonly IOwnerRepository _ownerRepository;
+        
+        public PetService(IPetRepository petRepository,IOwnerRepository ownerRepository)
         {
             _perRepository = petRepository;
+            _ownerRepository = ownerRepository;
         }
 
         public Pet GetPetInstance()
@@ -27,7 +30,12 @@ namespace Petshop.Core.ApplicationService.Impl
 
         public List<Pet> GetPets()
         {
-            return _perRepository.ReadPets().ToList();
+            var petsList = _perRepository.ReadPets().ToList();
+            foreach (var pet in petsList)
+            {
+                pet.PreviousOwner = _ownerRepository.GetOwnerById(pet.PreviousOwner.ID);
+            }
+            return petsList;
         }
 
         public void PrintValidation(string alert, string text)
