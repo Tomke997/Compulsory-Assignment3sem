@@ -14,10 +14,6 @@ namespace Petshop.Core.ApplicationService
 
         Pet AddPet(Pet newPet);
 
-        void ClearValidation();
-
-        void PrintValidation(string alert, string text);
-
         Pet DeletePet(int selectedId);
 
         Pet UpdatePet(Pet selectedPet);

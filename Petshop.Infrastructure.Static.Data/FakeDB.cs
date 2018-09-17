@@ -14,13 +14,15 @@ namespace Petshop.Infrastructure.Data
         
         public static void InitData()
         {
+            
             var owner1 = new Owner()
             {
                 ID = 1,
                 FirstName = "Fabio",
                 LastName = "Monaco",
                 Address = "WhiskeyStreet 997",
-                PhoneNumber = "997111666"
+                PhoneNumber = "997111666",
+                PetsID = 1
             };
 
             var owner2 = new Owner()
@@ -29,7 +31,8 @@ namespace Petshop.Infrastructure.Data
                 FirstName = "John",
                 LastName = "Kowalski",
                 Address = "Zawiszy Czarnego 6",
-                PhoneNumber = "797264765"
+                PhoneNumber = "797264765",
+                PetsID = 1           
             };
             
             var pet1 = new Pet()
@@ -40,7 +43,7 @@ namespace Petshop.Infrastructure.Data
                 Birthdate = DateTime.Parse("10 / 05 / 1998"),
                 SoldDate = DateTime.Parse("29 / 08 / 2018"),
                 Color = "Black",
-                PreviousOwner = new Owner(){ ID = 1},
+           //     PreviousOwner = new Owner(){ ID = 1},
                 Price = 19.99
             };
 
@@ -52,7 +55,7 @@ namespace Petshop.Infrastructure.Data
                 Birthdate = DateTime.Parse("12 / 08 / 1410"),
                 SoldDate = DateTime.Parse("28 / 11 / 1544"),
                 Color = "Pink",
-                PreviousOwner = new Owner(){ ID = 1},
+               // PreviousOwner = new Owner(){ ID = 1},
                 Price = 105.50
             };
 
@@ -64,7 +67,7 @@ namespace Petshop.Infrastructure.Data
                 Birthdate = DateTime.Parse("07 / 09 / 2001"),
                 SoldDate = DateTime.Parse("08 / 07 / 2010"),
                 Color = "Green",
-                PreviousOwner = new Owner(){ ID = 2},
+               // PreviousOwner = new Owner(){ ID = 2},
                 Price = 99.99
             };
 

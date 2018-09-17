@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Petshop.Core.ApplicationService;
 using Petshop.Core.ApplicationService.Impl;
 using Petshop.Core.DomainService;
 using Petshop.Infrastructure.Data;
+using Petshop.Infrastructure.Data.Repositories;
 
 namespace Petshop.Rest.Api
 {
@@ -29,7 +24,8 @@ namespace Petshop.Rest.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            FakeDB.InitData();
+            services.AddDbContext<PetshopContex>(opt => opt.UseInMemoryDatabase("MakarenaDb"));
+            
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             

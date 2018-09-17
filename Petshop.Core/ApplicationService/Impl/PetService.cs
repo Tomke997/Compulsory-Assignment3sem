@@ -31,31 +31,7 @@ namespace Petshop.Core.ApplicationService.Impl
         public List<Pet> GetPets()
         {
             var petsList = _perRepository.ReadPets().ToList();
-            foreach (var pet in petsList)
-            {
-                pet.PreviousOwner = _ownerRepository.GetOwnerById(pet.PreviousOwner.ID);
-            }
             return petsList;
-        }
-
-        public void PrintValidation(string alert, string text)
-        {
-            var cursorT = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorSize - 15);
-            Console.Write(alert);
-            Console.SetCursorPosition(0, cursorT - 1);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(Console.CursorLeft, cursorT - 1);
-            Console.Write(text);
-        }
-
-        public void ClearValidation()
-        {
-            var cursorT = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorSize - 15);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(Console.CursorLeft, cursorT);
-
         }
 
         public List<Pet> GetPetsByType(string type)
@@ -82,7 +58,9 @@ namespace Petshop.Core.ApplicationService.Impl
 
         public Pet FindPetById(int Id)
         {
-            return _perRepository.GetPetById(Id);
+            Pet selectedPet =_perRepository.GetPetById(Id);
+            selectedPet.PreviousOwner = _ownerRepository.ReadOwners().Where(owner => owner.PetsID == selectedPet.ID).ToList();
+            return selectedPet;
         }
 
         public Pet UpdatePet(Pet selectedPet)
