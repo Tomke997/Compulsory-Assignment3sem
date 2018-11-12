@@ -46,7 +46,7 @@ namespace Petshop.Rest.Api.Controllers
         [HttpPut("{id}")]
         public ActionResult<Owner> Put(int id, [FromBody] Owner owner)
         {
-            if (id < 1 || id != owner.ID)
+            if (id < 1)
             {
                 return BadRequest("Parameter Id and order ID must be the same");
             }

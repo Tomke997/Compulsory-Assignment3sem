@@ -9,7 +9,7 @@ namespace Petshop.Core.Entity
         public string LastName { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
-        public int PetsID { get; set; }
+        public Pet Pet { get; set; }
         
     }
 }

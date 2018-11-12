@@ -58,8 +58,7 @@ namespace Petshop.Core.ApplicationService.Impl
 
         public Pet FindPetById(int Id)
         {
-            Pet selectedPet =_perRepository.GetPetById(Id);
-            selectedPet.PreviousOwner = _ownerRepository.ReadOwners().Where(owner => owner.PetsID == selectedPet.ID).ToList();
+            Pet selectedPet =_perRepository.GetPetById(Id);         
             return selectedPet;
         }
 
