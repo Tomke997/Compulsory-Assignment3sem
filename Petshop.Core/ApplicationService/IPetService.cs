@@ -8,9 +8,7 @@ namespace Petshop.Core.ApplicationService
     {
         Pet GetPetInstance();
 
-        List<Pet> GetPets();
-
-        List<Pet> GetPetsByType(string type);
+        List<Pet> GetPets(Filter filter);
 
         Pet AddPet(Pet newPet);
 
@@ -19,9 +17,5 @@ namespace Petshop.Core.ApplicationService
         Pet UpdatePet(Pet selectedPet);
 
         Pet FindPetById(int Id);
-
-        List<Pet> SortPetByPrice(List<Pet> petList);
-
-        List<Pet> GetSelectedAmountOfPets(List<Pet> petList,int amount);
     }
 }

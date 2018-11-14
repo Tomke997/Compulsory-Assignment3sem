@@ -36,7 +36,7 @@ namespace Petshop.Rest.Api.Controllers
             [HttpGet]
             public ActionResult<IEnumerable<Pet>> Get()
             {
-                return _petService.GetPets();
+                return null;
             }
 
             // GET api/users/5

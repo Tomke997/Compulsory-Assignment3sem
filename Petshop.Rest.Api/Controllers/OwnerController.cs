@@ -18,9 +18,9 @@ namespace Petshop.Rest.Api.Controllers
         
         // GET api/owners
         [HttpGet]
-        public ActionResult<IEnumerable<Owner>> Get()
+        public ActionResult<IEnumerable<Owner>> Get([FromQuery] Filter filter)
         {
-            return _ownerService.GetAllOwners();
+            return _ownerService.GetAllOwners(filter);
         }
 
         // GET api/owners/5
@@ -50,14 +50,8 @@ namespace Petshop.Rest.Api.Controllers
             {
                 return BadRequest("Parameter Id and order ID must be the same");
             }
-            else if (_ownerService.GetOwnerById(id) == null)
-            {
-                return BadRequest("Owner with this id does not exist"); 
-            }
-
             _ownerService.UpdateOwner(owner);
-            return Ok($"Owner with Id: {id} was updated");
-
+            return owner;
         }
 
         // DELETE api/owners/5
@@ -69,7 +63,7 @@ namespace Petshop.Rest.Api.Controllers
             {
                 return BadRequest("Owner with this Id does not exist");
             }
-            return Ok($"Owner with Id: {id} was Deleted");
+            return null;
         }
     }
 }

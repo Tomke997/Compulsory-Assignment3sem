@@ -8,7 +8,7 @@ namespace Petshop.Core.ApplicationService
         
         Owner CreateOwner(Owner newOwner);
 
-        List<Owner> GetAllOwners();
+        List<Owner> GetAllOwners(Filter filter);
 
         Owner UpdateOwner(Owner owner);
 

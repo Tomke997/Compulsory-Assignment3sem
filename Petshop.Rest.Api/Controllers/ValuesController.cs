@@ -21,20 +21,34 @@ namespace Petshop.Rest.Api.Controllers
         
         // GET api/pets
         [HttpGet]
-        public ActionResult<IEnumerable<Pet>> Get()
-        {
-            return _petService.GetPets();
+        public ActionResult<IEnumerable<Pet>> Get([FromQuery] Filter filter)
+        {          
+            try
+            {
+                return _petService.GetPets(filter);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // GET api/pets/5
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
+            if (id < 1)
+            {
+                return BadRequest("Id must be greater then 0");
+            }
+            
             Pet selectedPet = _petService.FindPetById(id);
+            
             if (selectedPet == null)
             {
                 return BadRequest("Pet with this Id does not exist");
             }
+            
             return selectedPet;
         }
 
@@ -54,12 +68,9 @@ namespace Petshop.Rest.Api.Controllers
             {
                 return BadRequest("Parameter Id and order ID must be the same");
             }
-            else if (_petService.FindPetById(id) == null)
-            {
-                return BadRequest("Owner with this id does not exist"); 
-            }
             _petService.UpdatePet(selectedPet);
-            return Ok($"Owner with Id: {id} was updated");
+
+            return selectedPet;
         }
 
         // DELETE api/pets/5
@@ -71,7 +82,7 @@ namespace Petshop.Rest.Api.Controllers
             {
                 return BadRequest("Pet with this Id does not exist");
             }
-            return Ok($"Pet with Id: {id} was Deleted");
+            return null;
         }
     }
 }

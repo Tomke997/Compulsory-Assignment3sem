@@ -28,27 +28,10 @@ namespace Petshop.Core.ApplicationService.Impl
             return newPet;
         }
 
-        public List<Pet> GetPets()
+        public List<Pet> GetPets(Filter filter)
         {
-            var petsList = _perRepository.ReadPets().ToList();
+            var petsList = _perRepository.ReadPets(filter).ToList();
             return petsList;
-        }
-
-        public List<Pet> GetPetsByType(string type)
-        {
-            List<Pet> listWithType = new List<Pet>();
-            foreach (Pet pet in _perRepository.ReadPets().ToList())
-            {
-                if (pet.Type.ToUpper() == type.ToUpper())
-                {
-                    listWithType.Add(pet);
-                }               
-            }
-            if(listWithType.Count==0)
-            {
-                return null;
-            }
-            return listWithType;
         }
 
         public Pet DeletePet(int selectedId)
@@ -65,23 +48,6 @@ namespace Petshop.Core.ApplicationService.Impl
         public Pet UpdatePet(Pet selectedPet)
         {
             return _perRepository.UpdatePet(selectedPet);
-        }
-
-        public List<Pet> SortPetByPrice(List<Pet> petList)
-        {
-            return petList.OrderBy(pet => pet.Price).ToList();
-            
-        }
-
-        public List<Pet> GetSelectedAmountOfPets(List<Pet> petList, int amount)
-        {
-           int i = 0;
-           List<Pet> listWithPets = new List<Pet>();
-           while(i<petList.Count() && i<amount)
-            {
-                listWithPets.Add(petList[i++]);
-            }
-            return listWithPets;
-        }    
+        }   
     }
 }

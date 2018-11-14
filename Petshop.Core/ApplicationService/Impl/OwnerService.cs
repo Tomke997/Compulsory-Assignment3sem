@@ -19,9 +19,9 @@ namespace Petshop.Core.ApplicationService.Impl
            return _ownerRepository.AddOwner(newOwner);
         }
 
-        public List<Owner> GetAllOwners()
+        public List<Owner> GetAllOwners(Filter filter)
         {
-            return _ownerRepository.ReadOwners().ToList();
+            return _ownerRepository.ReadOwners(filter).ToList();
         }
 
         public Owner UpdateOwner(Owner owner)

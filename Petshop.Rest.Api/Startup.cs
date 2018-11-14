@@ -23,14 +23,27 @@ namespace Petshop.Rest.Api
         }
 
         public IConfiguration Configuration { get; }
+        
+        private IHostingEnvironment _env { get; set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.AddDbContext<PetshopContex>(opt => opt.UseInMemoryDatabase("StaticDB"));*/
+           
+            if (_env.IsDevelopment())
+	        {		        
+	            services.AddDbContext<PetshopContex>(
+	                opt => opt.UseSqlite("Data Source=petShopDB.db"));
+	        }
 
-            services.AddDbContext<PetshopContex>(
-                opt => opt.UseSqlite("Data Source=petShopDB.db"));
+	        else if (_env.IsProduction())
+	        {
+		        services.AddDbContext<PetshopContex>(
+			        opt => opt
+				        .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+	        }
+
+            
             
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
@@ -65,7 +78,12 @@ namespace Petshop.Rest.Api
                 }
             }
             else
-            {                           
+            {            
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetService<PetshopContex>();
+                    ctx.Database.EnsureCreated();
+                }
                 app.UseHsts();
             }
           
