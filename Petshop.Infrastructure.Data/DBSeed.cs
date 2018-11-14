@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Petshop.Core.Entity;
@@ -8,37 +9,35 @@ namespace Petshop.Infrastructure.Data
     public class DBSeed
     {
         public static void SeedDB(PetshopContex ctx)
-        {
-            string password = "1234";
+        {          
+            ctx.Database.EnsureDeleted();
+            ctx.Database.EnsureCreated();    
+            
+            string password = "1112";
             byte[] passwordHashJoe, passwordSaltJoe, passwordHashAnn, passwordSaltAnn;
             CreatePasswordHash(password, out passwordHashJoe, out passwordSaltJoe);
             CreatePasswordHash(password, out passwordHashAnn, out passwordSaltAnn);
-            
-            ctx.Database.EnsureDeleted();
-            ctx.Database.EnsureCreated();                   
-            var cust1 = ctx.Pets.Add(new Pet()
+
+            List<User> users = new List<User>
             {
-                Color = "Grey",
-                Name = "Cipko",
-                Type = "Dog",
-                Price = 50
-            });
-            var user1 = ctx.User.Add(new User()
-            {              
+                new User {
                     Username = "UserJoe",
                     PasswordHash = passwordHashJoe,
                     PasswordSalt = passwordSaltJoe,
-                    IsAdmin = false              
-            });
-            var user2 = ctx.User.Add(
-                new User
-                {
+                    IsAdmin = false
+                },
+                new User {
                     Username = "AdminAnn",
                     PasswordHash = passwordHashAnn,
                     PasswordSalt = passwordSaltAnn,
                     IsAdmin = true
-                });
+                }
+            };
+            
+            ctx.Users.AddRange(users);
+            ctx.SaveChanges();                                 
         }
+        
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
