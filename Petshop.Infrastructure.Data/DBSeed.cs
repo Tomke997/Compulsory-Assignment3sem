@@ -16,7 +16,6 @@ namespace Petshop.Infrastructure.Data
             string password = "1112";
             byte[] passwordHashJoe, passwordSaltJoe, passwordHashAnn, passwordSaltAnn;
             CreatePasswordHash(password, out passwordHashJoe, out passwordSaltJoe);
-            CreatePasswordHash(password, out passwordHashAnn, out passwordSaltAnn);
 
             List<User> users = new List<User>
             {
@@ -24,15 +23,8 @@ namespace Petshop.Infrastructure.Data
                     Username = "UserJoe",
                     PasswordHash = passwordHashJoe,
                     PasswordSalt = passwordSaltJoe,
-                    IsAdmin = false
-                },
-                new User {
-                    Username = "AdminAnn",
-                    PasswordHash = passwordHashAnn,
-                    PasswordSalt = passwordSaltAnn,
                     IsAdmin = true
-                }
-            };
+                }};
             
             ctx.Users.AddRange(users);
             ctx.SaveChanges();                                 
