@@ -7,7 +7,7 @@ using Petshop.Core.Entity;
 
 namespace Petshop.Infrastructure.Data.Repositories
 {
-    public class OwnerRepository: IOwnerRepository
+    public class OwnerRepository: IRepository<Owner>
     {
         private readonly PetshopContex _ctx;
 
@@ -15,13 +15,8 @@ namespace Petshop.Infrastructure.Data.Repositories
         {
             _ctx = ctx;
         }
-        
-        public Owner GetOwnerById(int id)
-        {
-            return _ctx.Owners.Include(c => c.Pet).FirstOrDefault(o => o.ID == id);
-        }
 
-        public IEnumerable<Owner> ReadOwners(Filter filter)
+        public IEnumerable<Owner> GetAll(Filter filter)
         {
             if (filter.ItemsPrPage > 0 && filter.CurrentPage > 0)
             {
@@ -32,29 +27,29 @@ namespace Petshop.Infrastructure.Data.Repositories
             }
             return _ctx.Owners;
         }
-        
-        public Owner AddOwner(Owner newOwner)
+
+        public Owner Get(int id)
         {
-            _ctx.Attach(newOwner).State = EntityState.Added;
-            _ctx.SaveChanges();
-            return newOwner;
+            return _ctx.Owners.Include(c => c.Pet).FirstOrDefault(o => o.ID == id);
         }
 
-        public Owner RemoveOwner(int selectedId)
+        public void Add(Owner newModel)
         {
-            var owner = _ctx.Remove(new Owner() {ID = selectedId}).Entity;
+            _ctx.Attach(newModel).State = EntityState.Added;
             _ctx.SaveChanges();
-            return owner;
         }
 
-        public Owner UpdateOwner(Owner updatedOwner)
+        public void Edit(Owner modelUpdate)
         {
-            _ctx.Attach(updatedOwner).State = EntityState.Modified;
-            _ctx.Entry(updatedOwner).Reference(o => o.Pet).IsModified = true;
+            _ctx.Attach(modelUpdate).State = EntityState.Modified;
+            _ctx.Entry(modelUpdate).Reference(o => o.Pet).IsModified = true;
             _ctx.SaveChanges();
-            return updatedOwner;
-            
-            
+        }
+
+        public void Remove(int id)
+        {
+            var owner = _ctx.Remove(new Owner{ID = id}).Entity;
+            _ctx.SaveChanges();
         }
     }
 }

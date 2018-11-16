@@ -6,48 +6,38 @@ using System.Linq;
 
 namespace Petshop.Core.ApplicationService.Impl
 {
-    public class PetService : IPetService
+    public class PetService : IService<Pet>
     {
-        readonly IPetRepository _perRepository;
-        readonly IOwnerRepository _ownerRepository;
+        readonly IRepository<Pet> _petRepository;
         
-        public PetService(IPetRepository petRepository,IOwnerRepository ownerRepository)
+        public PetService(IRepository<Pet> petRepository)
         {
-            _perRepository = petRepository;
-            _ownerRepository = ownerRepository;
+            _petRepository = petRepository;
         }
 
-        public Pet GetPetInstance()
+        public void Create(Pet newObject)
         {
-            return new Pet();
+            _petRepository.Add(newObject);
         }
 
-        public Pet AddPet(Pet newPet)
+        public List<Pet> GetAll(Filter filter)
         {
-            _perRepository.AddPet(newPet);
-            return newPet;
+            return _petRepository.GetAll(filter).ToList();
         }
 
-        public List<Pet> GetPets(Filter filter)
+        public void Update(Pet objectUpdate)
         {
-            var petsList = _perRepository.ReadPets(filter).ToList();
-            return petsList;
+             _petRepository.Edit(objectUpdate);
         }
 
-        public Pet DeletePet(int selectedId)
+        public Pet GetById(int id)
         {
-           return _perRepository.RemovePet(selectedId);
+            return _petRepository.Get(id);         
         }
 
-        public Pet FindPetById(int Id)
+        public void Delete(int id)
         {
-            Pet selectedPet =_perRepository.GetPetById(Id);         
-            return selectedPet;
+             _petRepository.Remove(id);
         }
-
-        public Pet UpdatePet(Pet selectedPet)
-        {
-            return _perRepository.UpdatePet(selectedPet);
-        }   
     }
 }

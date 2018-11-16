@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Petshop.Core.ApplicationService;
+using Petshop.Core.DomainService;
 using Petshop.Core.Entity;
 
 namespace Petshop.Rest.Api.Controllers
@@ -10,19 +11,26 @@ namespace Petshop.Rest.Api.Controllers
     [ApiController]
     public class OwnersController: ControllerBase
     {
-        private readonly IOwnerService _ownerService;
+        private readonly IRepository<Owner> _ownerService;
 
-        public OwnersController(IOwnerService ownerService)
+        public OwnersController(IRepository<Owner> ownerService)
         {
             _ownerService = ownerService;
         }
         
         // GET api/owners
-        [Authorize]
+       
         [HttpGet]
         public ActionResult<IEnumerable<Owner>> Get([FromQuery] Filter filter)
         {
-            return _ownerService.GetAllOwners(filter);
+            try
+            {
+                return Ok(_ownerService.GetAll(filter));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // GET api/owners/5
@@ -30,7 +38,7 @@ namespace Petshop.Rest.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<Owner> Get(int id)
         {
-            Owner selectedOwner = _ownerService.GetOwnerById(id);
+            Owner selectedOwner = _ownerService.Get(id);
             if (selectedOwner == null)
             {
                 return BadRequest("Owner with this Id does not exist");
@@ -43,7 +51,8 @@ namespace Petshop.Rest.Api.Controllers
         [HttpPost]
         public ActionResult<Owner> Post([FromBody] Owner newOwner)
         {
-            return _ownerService.CreateOwner(newOwner);
+            _ownerService.Add(newOwner);
+            return newOwner;
         }
 
         // PUT api/owners/5
@@ -55,7 +64,7 @@ namespace Petshop.Rest.Api.Controllers
             {
                 return BadRequest("Parameter Id and order ID must be the same");
             }
-            _ownerService.UpdateOwner(owner);
+            _ownerService.Edit(owner);
             return owner;
         }
 
@@ -64,8 +73,8 @@ namespace Petshop.Rest.Api.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Owner> Delete(int id)
         {
-            Owner selectedOwner = _ownerService.DeleteOwner(id);
-            if (selectedOwner == null)
+            _ownerService.Remove(id);
+            if (_ownerService.Get(id) == null)
             {
                 return BadRequest("Owner with this Id does not exist");
             }

@@ -15,6 +15,7 @@ using Petshop.Core.Entity;
 using Petshop.Infrastructure.Data;
 using Petshop.Infrastructure.Data.Repositories;
 using TodoApi.Helpers;
+using TodoApi.Models;
 
 namespace Petshop.Rest.Api
 {
@@ -64,11 +65,13 @@ namespace Petshop.Rest.Api
                     opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
             }
                     
-            services.AddScoped<IPetRepository, PetRepository>();
-            services.AddScoped<IOwnerRepository, OwnerRepository>();
+            services.AddScoped<IRepository<Pet>, PetRepository>();
+            services.AddScoped<IRepository<Owner>, OwnerRepository>();
+            services.AddScoped<IRepository<User>, UserRepository>();           
             
-            services.AddScoped<IPetService, PetService>();
-            services.AddScoped<IOwnerService, OwnerService>();
+            services.AddScoped<IService<Pet>, PetService>();
+            services.AddScoped<IService<Owner>, OwnerService>();
+            services.AddScoped<IService<User>, UserService>();
             
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

@@ -16,9 +16,9 @@ namespace Petshop.Rest.Api.Controllers
 {
     public class TokensController: ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository<User> _userRepository;
 
-        public TokensController(IUserRepository userRepository)
+        public TokensController(IRepository<User> userRepository)
         {
             _userRepository = userRepository;
         }
@@ -26,7 +26,7 @@ namespace Petshop.Rest.Api.Controllers
         [HttpPost]
         public IActionResult Login([FromBody]LoginInputModel model)
         {
-            var user = _userRepository.GetAll().FirstOrDefault(u => u.Username == model.Username);
+            var user = _userRepository.GetAll(null).FirstOrDefault(u => u.Username == model.Username);
 
             // check if username exists
             if (user == null)
@@ -47,15 +47,15 @@ namespace Petshop.Rest.Api.Controllers
         [HttpPost]
         public ActionResult<User> Post([FromBody]LoginInputModel model)
         {         
-            var user = _userRepository.GetAll().FirstOrDefault(u => u.Username == model.Username);
-                       
+            var user = _userRepository.GetAll(null).FirstOrDefault(u => u.Username == model.Username);
+
             if (user != null)
-             return Unauthorized();
+                return BadRequest();
             
             byte[] passwordHashnewUser, passwordSaltnewUser;
             CreatePasswordHash(model.Password, out passwordHashnewUser , out passwordSaltnewUser );
 
-            var newUser = new User()
+            var newUser = new User
             {
                 Username = model.Username,
                 PasswordHash = passwordHashnewUser,

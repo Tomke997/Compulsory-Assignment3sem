@@ -5,38 +5,38 @@ using Petshop.Core.Entity;
 
 namespace Petshop.Core.ApplicationService.Impl
 {
-    public class OwnerService: IOwnerService
+    public class OwnerService: IService<Owner>
     {
-        readonly IOwnerRepository _ownerRepository;
+        readonly IRepository<Owner> _ownerRepository;
         
-        public OwnerService(IOwnerRepository ownerRepository)
+        public OwnerService(IRepository<Owner> ownerRepository)
         {
             _ownerRepository = ownerRepository;
         }
-        
-        public Owner CreateOwner(Owner newOwner)
+
+        public void Create(Owner newObject)
         {
-           return _ownerRepository.AddOwner(newOwner);
+            _ownerRepository.Add(newObject);
         }
 
-        public List<Owner> GetAllOwners(Filter filter)
+        public List<Owner> GetAll(Filter filter)
         {
-            return _ownerRepository.ReadOwners(filter).ToList();
+            return _ownerRepository.GetAll(filter).ToList();
         }
 
-        public Owner UpdateOwner(Owner owner)
+        public void Update(Owner objectUpdate)
         {
-            return _ownerRepository.UpdateOwner(owner);
+            _ownerRepository.Edit(objectUpdate);
         }
 
-        public Owner GetOwnerById(int id)
+        public Owner GetById(int id)
         {
-            return _ownerRepository.GetOwnerById(id);
+            return _ownerRepository.Get(id);
         }
 
-        public Owner DeleteOwner(int id)
+        public void Delete(int id)
         {
-            return _ownerRepository.RemoveOwner(id);
+            _ownerRepository.Remove(id);
         }
     }
 }

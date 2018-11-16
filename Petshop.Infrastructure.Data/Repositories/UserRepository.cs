@@ -3,10 +3,11 @@ using Petshop.Core.DomainService;
 using TodoApi.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Petshop.Core.Entity;
 
 namespace Petshop.Infrastructure.Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IRepository<User>
     {
         private readonly PetshopContex _ctx;
 
@@ -14,8 +15,8 @@ namespace Petshop.Infrastructure.Data.Repositories
         {
             _ctx = ctx;
         }
-        
-        public IEnumerable<User> GetAll()
+
+        public IEnumerable<User> GetAll(Filter filter)
         {
             return _ctx.Users.ToList();
         }

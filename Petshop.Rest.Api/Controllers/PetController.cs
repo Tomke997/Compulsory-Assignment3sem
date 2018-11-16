@@ -13,9 +13,9 @@ namespace Petshop.Rest.Api.Controllers
     [ApiController]
     public class PetsController : ControllerBase
     {
-        private readonly IPetService _petService;
+        private readonly IService<Pet> _petService;
 
-        public PetsController(IPetService petService)
+        public PetsController(IService<Pet> petService)
         {
             _petService = petService;
         }
@@ -27,7 +27,7 @@ namespace Petshop.Rest.Api.Controllers
         {          
             try
             {
-                return _petService.GetPets(filter);
+                return _petService.GetAll(filter);
             }
             catch (Exception e)
             {
@@ -45,7 +45,7 @@ namespace Petshop.Rest.Api.Controllers
                 return BadRequest("Id must be greater then 0");
             }
             
-            Pet selectedPet = _petService.FindPetById(id);
+            Pet selectedPet = _petService.GetById(id);
             
             if (selectedPet == null)
             {
@@ -60,7 +60,8 @@ namespace Petshop.Rest.Api.Controllers
         [HttpPost]
         public ActionResult<Pet> Post([FromBody] Pet newPet)
         {
-            return _petService.AddPet(newPet);
+            _petService.Create(newPet);
+            return newPet;
         }
 
         // PUT api/pets/5
@@ -73,7 +74,7 @@ namespace Petshop.Rest.Api.Controllers
             {
                 return BadRequest("Parameter Id and order ID must be the same");
             }
-            _petService.UpdatePet(selectedPet);
+            _petService.Update(selectedPet);
 
             return selectedPet;
         }
@@ -83,8 +84,8 @@ namespace Petshop.Rest.Api.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Pet> Delete(int id)
         {
-            Pet selectedPet = _petService.DeletePet(id);
-            if (selectedPet == null)
+            _petService.Delete(id);
+            if (_petService.GetById(id) == null)
             {
                 return BadRequest("Pet with this Id does not exist");
             }
