@@ -101,8 +101,9 @@ namespace Petshop.Rest.Api
                     ctx.Database.EnsureCreated();
                 }
                 app.UseHsts();
-            }
-          
+            }       
+            
+            
             app.UseCors("AllowSpecificOrigin");
             app.UseHttpsRedirection();
             app.UseAuthentication();
