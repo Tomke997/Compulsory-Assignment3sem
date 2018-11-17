@@ -18,8 +18,8 @@ namespace Petshop.Rest.Api.Controllers
             _ownerService = ownerService;
         }
         
-        // GET api/owners
-       
+        // GET api/owners     
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<Owner>> Get([FromQuery] Filter filter)
         {
