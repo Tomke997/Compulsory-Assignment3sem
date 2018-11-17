@@ -17,16 +17,15 @@ namespace Petshop.Infrastructure.Data
             byte[] passwordHashJoe, passwordSaltJoe, passwordHashAnn, passwordSaltAnn;
             CreatePasswordHash(password, out passwordHashJoe, out passwordSaltJoe);
 
-            List<User> users = new List<User>
-            {
-                new User {
+           
+                User userJoe = new User {
                     Username = "UserJoe",
                     PasswordHash = passwordHashJoe,
                     PasswordSalt = passwordSaltJoe,
                     IsAdmin = true
-                }};
+                };
             
-            ctx.Users.AddRange(users);
+            ctx.Users.Add(userJoe);
             ctx.SaveChanges();                                 
         }
         
