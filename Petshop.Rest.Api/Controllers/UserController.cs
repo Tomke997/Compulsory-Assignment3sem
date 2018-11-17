@@ -44,10 +44,9 @@ namespace Petshop.Rest.Api.Controllers
             return newUser;
         }
         
-        // DELETE api/pets/5
         [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
-        public ActionResult<Pet> Delete(int id)
+        public ActionResult<User> Delete(int id)
         {
             _userService.Delete(id);
             if (_userService.GetById(id) == null)
@@ -56,9 +55,10 @@ namespace Petshop.Rest.Api.Controllers
             }
             return null;
         }
+        
         [Authorize(Roles = "Administrator")]
         [HttpGet]
-        public ActionResult<IEnumerable<Pet>> Get([FromQuery] Filter filter)
+        public ActionResult<IEnumerable<User>> Get([FromQuery] Filter filter)
         {          
             try
             {
