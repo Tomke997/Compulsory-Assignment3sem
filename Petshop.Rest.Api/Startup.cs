@@ -23,8 +23,14 @@ namespace Petshop.Rest.Api
     {
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
-            Environment = env;
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+            
             JwtSecurityKey.SetSecret("a secret that needs to be at least 16 characters long");       
         }
         
