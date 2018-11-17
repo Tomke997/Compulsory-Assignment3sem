@@ -1,5 +1,9 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Petshop.Core.ApplicationService;
 using Petshop.Core.DomainService;
 using Petshop.Core.Entity;
 using TodoApi.Models;
@@ -10,17 +14,17 @@ namespace Petshop.Rest.Api.Controllers
     [ApiController]
     public class UsersController: ControllerBase
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IService<User> _userService;
 
-        public UsersController(IRepository<User> userRepository)
+        public UsersController(IService<User> userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
         
         [HttpPost]
         public ActionResult<User> Post([FromBody]LoginInputModel model)
         {         
-            var user = _userRepository.GetAll(null).FirstOrDefault(u => u.Username == model.Username);
+            var user = _userService.GetAll(null).FirstOrDefault(u => u.Username == model.Username);
 
             if (user != null)
                 return BadRequest();
@@ -35,9 +39,35 @@ namespace Petshop.Rest.Api.Controllers
                 PasswordSalt = passwordSaltnewUser,
                 IsAdmin = false
             };
-            _userRepository.Add(newUser);
+            _userService.Create(newUser);
                        
             return newUser;
+        }
+        
+        // DELETE api/pets/5
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete("{id}")]
+        public ActionResult<Pet> Delete(int id)
+        {
+            _userService.Delete(id);
+            if (_userService.GetById(id) == null)
+            {
+                return BadRequest("User with this Id does not exist");
+            }
+            return null;
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        public ActionResult<IEnumerable<Pet>> Get([FromQuery] Filter filter)
+        {          
+            try
+            {
+                return Ok(_userService.GetAll(filter));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

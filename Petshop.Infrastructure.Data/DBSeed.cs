@@ -14,7 +14,7 @@ namespace Petshop.Infrastructure.Data
             ctx.Database.EnsureCreated();    
             
             string password = "1112";
-            byte[] passwordHashJoe, passwordSaltJoe, passwordHashAnn, passwordSaltAnn;
+            byte[] passwordHashJoe, passwordSaltJoe;
             CreatePasswordHash(password, out passwordHashJoe, out passwordSaltJoe);
 
            

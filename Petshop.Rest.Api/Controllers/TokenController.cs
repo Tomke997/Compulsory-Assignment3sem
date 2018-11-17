@@ -18,17 +18,17 @@ namespace Petshop.Rest.Api.Controllers
     [ApiController]
     public class TokensController: ControllerBase
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IService<User> _userService;
 
-        public TokensController(IRepository<User> userRepository)
+        public TokensController(IService<User> userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
         
         [HttpPost]
         public IActionResult Login([FromBody]LoginInputModel model)
         {
-            var user = _userRepository.GetAll(null).FirstOrDefault(u => u.Username == model.Username);
+            var user = _userService.GetAll(null).FirstOrDefault(u => u.Username == model.Username);
 
             // check if username exists
             if (user == null)
