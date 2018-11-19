@@ -37,7 +37,7 @@ namespace Petshop.Rest.Api.Controllers
                 Username = model.Username,
                 PasswordHash = passwordHashnewUser,
                 PasswordSalt = passwordSaltnewUser,
-                IsAdmin = true
+                IsAdmin = false
             };
             _userService.Create(newUser);
                        
