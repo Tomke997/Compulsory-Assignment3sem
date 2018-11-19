@@ -5,15 +5,13 @@ namespace Petshop.Infrastructure.Data
     public class DBSeed
     {
         public static void SeedDB(PetshopContex ctx)
-        {          
+        {      
             ctx.Database.EnsureDeleted();
-            ctx.Database.EnsureCreated();    
-            
+            ctx.Database.EnsureCreated(); 
             string password = "1112";
             byte[] passwordHashJoe, passwordSaltJoe;
             CreatePasswordHash(password, out passwordHashJoe, out passwordSaltJoe);
-
-           
+          
                 User userJoe = new User {
                     Username = "UserJoe",
                     PasswordHash = passwordHashJoe,
