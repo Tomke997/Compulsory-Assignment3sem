@@ -98,8 +98,7 @@ namespace Petshop.Rest.Api
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     var ctx = scope.ServiceProvider.GetService<PetshopContex>();
-                    //ctx.Database.EnsureCreated();
-                    DBSeed.SeedDB(ctx);
+                    ctx.Database.EnsureCreated();
                 }
                 app.UseHsts();
             }
