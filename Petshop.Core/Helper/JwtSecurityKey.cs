@@ -9,7 +9,10 @@ namespace TodoApi.Helpers
 
         public static SymmetricSecurityKey Key 
         {
-            get {return new SymmetricSecurityKey(secretBytes);} 
+            get
+            {
+                return new SymmetricSecurityKey(secretBytes);
+            }
         }
 
         public static void SetSecret(string secret)

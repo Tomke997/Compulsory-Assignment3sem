@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using Petshop.Core.Entity;
 using TodoApi.Models;
 
 namespace Petshop.Infrastructure.Data
