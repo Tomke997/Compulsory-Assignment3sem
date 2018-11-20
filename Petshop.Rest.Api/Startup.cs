@@ -49,7 +49,8 @@ namespace Petshop.Rest.Api
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.AllowAnyOrigin().AllowAnyHeader()
+                    builder => builder.WithOrigins("https://petonang.firebaseapp.com").AllowAnyHeader()
+                        .AllowAnyMethod().WithOrigins("http://localhost:4200").AllowAnyHeader()
                         .AllowAnyMethod());
             });
        
