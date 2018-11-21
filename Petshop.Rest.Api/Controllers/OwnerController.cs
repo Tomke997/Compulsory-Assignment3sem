@@ -74,7 +74,10 @@ namespace Petshop.Rest.Api.Controllers
         public ActionResult<Owner> Delete(int id)
         {
             _ownerService.Remove(id);
-        
+            if (_ownerService.Get(id) != null)
+            {
+                return _ownerService.Get(id);
+            }
             return null;
         }
     }
