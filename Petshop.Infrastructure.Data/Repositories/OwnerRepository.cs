@@ -48,7 +48,7 @@ namespace Petshop.Infrastructure.Data.Repositories
 
         public void Remove(int id)
         {
-            var owner = _ctx.Remove(new Owner{ID = id}).Entity;
+            _ctx.Remove(new Owner{ID = id});
             _ctx.SaveChanges();
         }
     }

@@ -25,7 +25,7 @@ namespace Petshop.Rest.Api
         {
             Configuration = configuration;
             Environment = env;
-            JwtSecurityKey.SetSecret("a secret that needs to be at least 16 characters long");       
+            JwtSecurityKey.SetSecret("my secret to make the best lo main is to use ginger and garlic paste");       
         }
         
         public IConfiguration Configuration { get; }        
